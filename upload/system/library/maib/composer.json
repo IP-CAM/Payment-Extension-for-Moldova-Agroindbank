@@ -1,0 +1,11 @@
+{
+    "config": {
+        "platform": {
+            "php": "7.2"
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "maib/maibapi": "^2.0"
+    }
+}

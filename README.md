@@ -27,8 +27,8 @@ It is based on the maibapi library freely available on https://github.com/maiban
 REQUIREMENTS
 ============
 
- * PHP: >=7.1.0
- * OpenCart: 3.x
+ * PHP: >=8.1.0
+ * OpenCart: 4.x
 
 
 INSTALLATION
@@ -36,8 +36,8 @@ INSTALLATION
 
  * Method 1 (preferred): via Marketplace > Extensions page of you site administration panel.
  * Method 2: upload extension zip file to Marketplace > Extensions installer page of your site.
- * Method 3 (advanced): extract contents of zip file over your site.
- * Method 4 (developper): clone or download extension source code from github, run composer install in the library folder and copy over site files. 
+ * Method 3 (advanced): extract contents of zip file to your site extensions directory (upload/extension/oc-maib).
+ * Method 4 (developper): clone or download extension source code from github, run composer install in the library folder and copy oc-maib folder to upload/extension. 
 
 
 BEFORE USAGE
@@ -53,7 +53,7 @@ USAGE
 
  * Adjust accordingly extensions options on admin page.
  * Follow mail instructions in order to perform few payments in testing mode (adjust extensions setings accordingly).
- * Setup a cron job which will trigger clossing of business day somethere around midnight. Wget or curl can be used. Ex: wget https://your.site/index.php?route=extension/payment/maib/closeday
+ * Make sure cron is setup properly on your site, this extension will make automated requests to bank at midnight in order to close business day.
  * After you get the certificate, extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
  * If received client redirect and/or merchant urls do not match extensions default live urls - add this urls to admin and catalog config.php files (details on settings page) and adjust mode option to use new urls.
 

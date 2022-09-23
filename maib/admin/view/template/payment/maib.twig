@@ -2,142 +2,137 @@
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
-      <div class="pull-right">
-        <button type="submit" form="form-maparea" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <div class="float-end">
+        <button type="submit" form="form-config" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+        <a href="{{ cancel }}" data-bs-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a></div>
       <h1>{{ heading_title }}</h1>
-      <ul class="breadcrumb">
+      <ol class="breadcrumb">
         {% for breadcrumb in breadcrumbs %}
-        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
         {% endfor %}
-      </ul>
+      </ol>
     </div>
   </div>
   <div class="container-fluid">
     {% if error_warning %}
-    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
     {% endif %}
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
-      </div>
-      <div class="panel-body">
-	
+    <div class="card">
+      <div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_edit }}</div>
+      <div class="card-body">
       <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-config" class="form-horizontal">
-	  
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-private-key-file">{{ obtain_certificate }}</label>
-			<div class="col-sm-10">
-				<b>{{ obtain_certificate_help }}:</b><br>{{ payment_maib_shop_return_url }}
-			</div>
-		</div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">{{ extract_certificate_help }}</label>	
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-private-key-file">{{ obtain_certificate }}</label>
+      <div class="col-sm-10">
+        <b>{{ obtain_certificate_help }}:</b><br>{{ payment_maib_shop_return_url }}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ extract_certificate_help }}</label>
             <div class="col-sm-10">
               <pre>openssl pkcs12 -in certificate.pfx -nocerts [-nodes] -out key.pem
 openssl pkcs12 -in certificate.pfx -nokeys -out full-chain-certificate.pem</pre>
             </div>
-		</div>
-        
-		<div class="form-group required">
-			<label class="col-sm-2 control-label" for="input-private-key-file"><span data-toggle="tooltip" title="{{ entry_private_key_file_help }}">{{ entry_private_key_file }}</span></label>
-			<div class="col-sm-10">
-				<input type="text" name="payment_maib_private_key_file" value="{{ _form.payment_maib_private_key_file }}"placeholder="{{ entry_private_key_file }}" id="input-private-key-file" class="form-control" required />
-				{%if _error.payment_maib_private_key_file %}
-				<span class="text-danger">{{ _error.payment_maib_private_key_file }}</span>
-				{% endif %}
-			</div>
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-private-key-password">{{ entry_private_key_password }}</label>
-			<div class="col-sm-10">
-				<input type="password" name="payment_maib_private_key_password" value="{{ _form.payment_maib_private_key_password }}" placeholder="{{ entry_private_key_password }}" id="input-private-key-password" class="form-control" required />
-				{%if _error.payment_maib_private_key_password %}
-				<span class="text-danger">{{ _error.payment_maib_private_key_password }}</span>
-				{% endif %}
-			</div>
-		</div>
- 
-		<div class="form-group required">
-			<label class="col-sm-2 control-label" for="input-public-key-file"><span data-toggle="tooltip" title="{{ entry_public_key_file_help }}">{{ entry_public_key_file }}</span></label>
-			<div class="col-sm-10">
-				<input type="text" name="payment_maib_public_key_file" value="{{ _form.payment_maib_public_key_file }}" placeholder="{{ entry_public_key_file }}" id="input-public-key-file" class="form-control" required />
-				{%if _error.payment_maib_public_key_file %}
-				<span class="text-danger">{{ _error.payment_maib_public_key_file }}</span>
-				{% endif %}
-			</div>		
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-mode">{{ entry_mode }}</label>
-			<div class="col-sm-10">
-				<select name="payment_maib_mode" id="input-mode" class="form-control">
-					<option value="test" {% if _form.payment_maib_mode == 'test' %}selected="selected"{% endif %}>Test</option>
-					<option value="live" {% if _form.payment_maib_mode == 'live' %}selected="selected"{% endif %}>Live</option>
-					<option value="config" {% if _form.payment_maib_mode == 'config' %}selected="selected"{% endif %}>Custom from config.php</option>
-				</select>
-			</div>
-		</div>
+    </div>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="maib-redirect-url">{{ entry_redirect_url }}</label>
-			<div class="col-sm-10">
-				<ul>
-				{% for redirect_url_title, redirect_url_line in payment_maib_redirect_url %}
-				<li>{{ redirect_url_title }}: <br><i>{{ redirect_url_line }}</i></li>
-				{% endfor %}
-				</ul>
-			</div>
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="maib-merchant-url">{{ entry_merchant_url }}</label>
-			<div class="col-sm-10">
-				<ul>
-				{% for merchant_url_title, merchant_url_line in payment_maib_merchant_url %}
-				<li>{{ merchant_url_title }}: <br><i>{{ merchant_url_line }}</i></li>
-				{% endfor %}
-				</ul>
-			</div>
-		</div>
+    <div class="row mb-3 required">
+      <label class="col-sm-2 col-form-label" for="input-private-key-file"><span data-bs-toggle="tooltip" title="{{ entry_private_key_file_help }}">{{ entry_private_key_file }}</span></label>
+      <div class="col-sm-10">
+        <input type="text" name="payment_maib_private_key_file" value="{{ _form.payment_maib_private_key_file }}" placeholder="{{ entry_private_key_file }}" id="input-private-key-file" class="form-control" required />
+        {%if _error.payment_maib_private_key_file %}
+        <span class="text-danger">{{ _error.payment_maib_private_key_file }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-private-key-password">{{ entry_private_key_password }}</label>
+      <div class="col-sm-10">
+        <input type="password" name="payment_maib_private_key_password" value="{{ _form.payment_maib_private_key_password }}" placeholder="{{ entry_private_key_password }}" id="input-private-key-password" class="form-control" />
+        {%if _error.payment_maib_private_key_password %}
+        <span class="text-danger">{{ _error.payment_maib_private_key_password }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3 required">
+      <label class="col-sm-2 col-form-label" for="input-public-key-file"><span data-bs-toggle="tooltip" title="{{ entry_public_key_file_help }}">{{ entry_public_key_file }}</span></label>
+      <div class="col-sm-10">
+        <input type="text" name="payment_maib_public_key_file" value="{{ _form.payment_maib_public_key_file }}" placeholder="{{ entry_public_key_file }}" id="input-public-key-file" class="form-control" required />
+        {%if _error.payment_maib_public_key_file %}
+        <span class="text-danger">{{ _error.payment_maib_public_key_file }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-mode">{{ entry_mode }}</label>
+      <div class="col-sm-10">
+        <select name="payment_maib_mode" id="input-mode" class="form-control">
+          <option value="test" {% if _form.payment_maib_mode == 'test' %}selected="selected"{% endif %}>Test</option>
+          <option value="live" {% if _form.payment_maib_mode == 'live' %}selected="selected"{% endif %}>Live</option>
+          <option value="config" {% if _form.payment_maib_mode == 'config' %}selected="selected"{% endif %}>Custom from config.php</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="maib-redirect-url">{{ entry_redirect_url }}</label>
+      <div class="col-sm-10">
+        <ul>
+        {% for redirect_url_title, redirect_url_line in payment_maib_redirect_url %}
+        <li>{{ redirect_url_title }}: <br><i>{{ redirect_url_line }}</i></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="maib-merchant-url">{{ entry_merchant_url }}</label>
+      <div class="col-sm-10">
+        <ul>
+        {% for merchant_url_title, merchant_url_line in payment_maib_merchant_url %}
+        <li>{{ merchant_url_title }}: <br><i>{{ merchant_url_line }}</i></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
 {#
-		<div class="form-group">
-			<label class="col-sm-2 control-label">{{ entry_payment_method }}</label>
-			<div class="col-sm-10">
-				<label class="radio-inline">
-					<input type="radio" name="payment_maib_method" value="sms" {{ _form.payment_maib_method == 'sms' ? 'checked="checked" ' : '' }} />
-					{{ entry_payment_method_sms }}
-				</label><br>
-				<label class="radio-inline">
-					<input type="radio" name="payment_maib_method" value="dms" {{ _form.payment_maib_method == 'dms' ? 'checked="checked" ' : '' }} />
-					{{ entry_payment_method_dms }}
-				</label>
-			</div>
-		</div>
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_payment_method }}</label>
+      <div class="col-sm-10">
+        <label class="radio-inline">
+          <input type="radio" name="payment_maib_method" value="sms" {{ _form.payment_maib_method == 'sms' ? 'checked="checked" ' : '' }} />
+          {{ entry_payment_method_sms }}
+        </label><br>
+        <label class="radio-inline">
+          <input type="radio" name="payment_maib_method" value="dms" {{ _form.payment_maib_method == 'dms' ? 'checked="checked" ' : '' }} />
+          {{ entry_payment_method_dms }}
+        </label>
+      </div>
+    </div>
 #}
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-debug"><span data-toggle="tooltip" title="{{ entry_debug_help }}">{{ entry_debug }}</span></label>
-			<div class="col-sm-10">
-				<input type="checkbox" name="payment_maib_debug" value="1" id="input-debug" {{ _form.payment_maib_debug == '1' ? 'checked="checked" ' : '' }}/>
-			</div>
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-total"><span data-toggle="tooltip" title="{{ entry_total_help }}">{{ entry_total }}</span></label>
-			<div class="col-sm-10">
-				<input type="text" name="payment_maib_total" value="{{ _form.payment_maib_total }}" placeholder="{{ entry_total }}" id="input-total" class="form-control" />
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-order-status">{{ entry_order_status }}</label>
-			<div class="col-sm-10">
-				<select name="payment_maib_order_status_id" id="input-order-status" class="form-control">
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-debug"><span data-bs-toggle="tooltip" title="{{ entry_debug_help }}">{{ entry_debug }}</span></label>
+      <div class="col-sm-10">
+        <input type="checkbox" name="payment_maib_debug" value="1" id="input-debug" {{ _form.payment_maib_debug == '1' ? 'checked="checked" ' : '' }}/>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-total"><span data-bs-toggle="tooltip" title="{{ entry_total_help }}">{{ entry_total }}</span></label>
+      <div class="col-sm-10">
+        <input type="text" name="payment_maib_total" value="{{ _form.payment_maib_total }}" placeholder="{{ entry_total }}" id="input-total" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-order-status">{{ entry_order_status }}</label>
+      <div class="col-sm-10">
+        <select name="payment_maib_order_status_id" id="input-order-status" class="form-control">
                 {% for order_status in order_statuses %}
                 {% if order_status.order_status_id == _form.payment_maib_order_status_id %}
                 <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
@@ -146,13 +141,13 @@ openssl pkcs12 -in certificate.pfx -nokeys -out full-chain-certificate.pem</pre>
                 {% endif %}
                 {% endfor %}
               </select>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-order-pending-status">{{ entry_order_pending_status }}</label>
-			<div class="col-sm-10">
-				<select name="payment_maib_order_pending_status_id" id="input-order-pending-status" class="form-control">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-order-pending-status">{{ entry_order_pending_status }}</label>
+      <div class="col-sm-10">
+        <select name="payment_maib_order_pending_status_id" id="input-order-pending-status" class="form-control">
                 {% for order_status in order_statuses %}
                 {% if order_status.order_status_id == _form.payment_maib_order_pending_status_id %}
                 <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
@@ -161,29 +156,29 @@ openssl pkcs12 -in certificate.pfx -nokeys -out full-chain-certificate.pem</pre>
                 {% endif %}
                 {% endfor %}
               </select>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
-			<div class="col-sm-10">
-				<select name="payment_maib_geo_zone_id" id="input-geo-zone" class="form-control">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
+      <div class="col-sm-10">
+        <select name="payment_maib_geo_zone_id" id="input-geo-zone" class="form-control">
                 <option value="0">{{ text_all_zones }}</option>
                 {% for geo_zone in geo_zones %}
-				{% if geo_zone.geo_zone_id == _form.payment_maib_geo_zone_id %}
-				<option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
-				{% else %}
-				<option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
-				{% endif %}
-				{% endfor %}
+        {% if geo_zone.geo_zone_id == _form.payment_maib_geo_zone_id %}
+        <option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+        {% else %}
+        <option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+        {% endif %}
+        {% endfor %}
               </select>
-			</div>
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
-			<div class="col-sm-10">
-			  <select name="payment_maib_status" id="input-status" class="form-control">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-status">{{ entry_status }}</label>
+      <div class="col-sm-10">
+        <select name="payment_maib_status" id="input-status" class="form-control">
                 {% if _form.payment_maib_status %}
                 <option value="1" selected="selected">{{ text_enabled }}</option>
                 <option value="0">{{ text_disabled }}</option>
@@ -192,23 +187,23 @@ openssl pkcs12 -in certificate.pfx -nokeys -out full-chain-certificate.pem</pre>
                 <option value="0" selected="selected">{{ text_disabled }}</option>
                 {% endif %}
               </select>
-			</div>
-		</div>
-		
-		<div class="form-group"> 
-			<label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
-			<div class="col-sm-10">
-				<input type="text" name="payment_maib_sort_order" value="{{ _form.payment_maib_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
-			</div>
-		</div>
-        
-		<div class="form-group">
-			<label class="col-sm-2 control-label" for="input-last-closed-day">{{ entry_last_closed_day }}</label>
-			<div class="col-sm-10">
-			  <input name="payment_maib_last_closed_day" id="input-last-closed-day" class="form-control" type="text" readonly value="{{ _form.payment_maib_last_closed_day }}" />
-			</div>
-		</div>
-		
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-sort-order">{{ entry_sort_order }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="payment_maib_sort_order" value="{{ _form.payment_maib_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="input-last-closed-day">{{ entry_last_closed_day }}</label>
+      <div class="col-sm-10">
+        <input name="payment_maib_last_closed_day" id="input-last-closed-day" class="form-control" type="text" readonly value="{{ _form.payment_maib_last_closed_day }}" />
+      </div>
+    </div>
+
       </form>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <?php
 // Heading
 $_['heading_title'] = 'MAIB';
-$_['text_maib'] = '<img src="view/image/payment/maib.png" alt="MAIB" title="MAIB" />';
+$_['text_maib'] = '<img src="/extension/maib/admin/view/image/payment/maib.png" alt="MAIB" title="MAIB" />';
 // Text
 $_['text_extensions'] = 'Extensions';
 $_['text_success'] = 'Success: MAIB settnigs changed!';

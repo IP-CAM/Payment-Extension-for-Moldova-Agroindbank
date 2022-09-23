@@ -1,20 +1,22 @@
 <?php
 
-require_once(DIR_SYSTEM . 'library/maib/vendor/autoload.php');
+namespace Opencart\Admin\Controller\Extension\Maib\Payment;
+
+require_once(DIR_EXTENSION . 'maib/system/library/maib/vendor/autoload.php');
 
 use Maib\MaibApi\MaibClient;
 
 /**
  * MAIB payment extension.
  */
-class ControllerExtensionPaymentMaib extends Controller {
+class Maib extends \Opencart\System\Engine\Controller {
 	private $error = array();
 
-	public function index() {
-		$this->load->language('extension/payment/maib');
+	public function index(): void {
+		$this->load->language('extension/maib/payment/maib');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		
+
 		$this->load->model('setting/setting');
 		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
 			$this->model_setting_setting->editSetting('payment_maib', $this->request->post);
@@ -26,40 +28,40 @@ class ControllerExtensionPaymentMaib extends Controller {
 		$data['breadcrumbs'] = $this->getBreadCrumbs();
 
 		$data['_form'] = $this->getPostData();
-		
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
 		}
 		$data['_error'] = $this->error;
-		
+
 		$data['payment_maib_redirect_url']['Default test'] = MaibClient::MAIB_TEST_REDIRECT_URL;
 		$data['payment_maib_redirect_url']['Default live'] = MaibClient::MAIB_LIVE_REDIRECT_URL;
-		if (defined('PAYMENT_MAIB_REDIRECT_URL')) {
-			$data['payment_maib_redirect_url']['From config.php'] = PAYMENT_MAIB_REDIRECT_URL;
+		if (defined('\PAYMENT_MAIB_REDIRECT_URL')) {
+			$data['payment_maib_redirect_url']['From config.php'] = \PAYMENT_MAIB_REDIRECT_URL;
 		}
 		else {
-			$data['payment_maib_redirect_url']['From config.php'] = '-<br>To override add your url to catalog and admin config.php, ex:' 
-				 . '<br>define("PAYMENT_MAIB_REDIRECT_URL", "https://maib.ecommerce.md:123/ecomm456/ClientHandler");';
+			$data['payment_maib_redirect_url']['From config.php'] = '-<br>To override add your url to catalog and admin config.php, ex:'
+				 . '<br>define(\'PAYMENT_MAIB_REDIRECT_URL\', "https://maib.ecommerce.md:123/ecomm456/ClientHandler");';
 		}
-		
+
 		$data['payment_maib_merchant_url']['Default test'] = MaibClient::MAIB_TEST_BASE_URI . '/ecomm/MerchantHandler';
 		$data['payment_maib_merchant_url']['Default live'] = MaibClient::MAIB_LIVE_BASE_URI . '/ecomm/MerchantHandler';
-		if (defined('PAYMENT_MAIB_MERCHANT_URL')) {
-			$data['payment_maib_merchant_url']['From config.php'] = PAYMENT_MAIB_MERCHANT_URL;
+		if (defined('\PAYMENT_MAIB_MERCHANT_URL')) {
+			$data['payment_maib_merchant_url']['From config.php'] = \PAYMENT_MAIB_MERCHANT_URL;
 		}
 		else {
 			$data['payment_maib_merchant_url']['From config.php'] = '-<br>To override add your url to catalog and admin config.php, ex:'
-				 . '<br>define("PAYMENT_MAIB_MERCHANT_URL", "https://maib.ecommerce.md:123/ecomm456/MerchantHandler");';
+				 . '<br>define(\'PAYMENT_MAIB_MERCHANT_URL\', "https://maib.ecommerce.md:123/ecomm456/MerchantHandler");';
 		}
-		
-    	$data['action'] = $this->url->link('extension/payment/maib', 'user_token='
+
+    	$data['action'] = $this->url->link('extension/maib/payment/maib', 'user_token='
     		. $this->session->data['user_token'], 'SSL');
-		
+
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token='
 			. $this->session->data['user_token'] . '&type=payment', true);
-		$data['payment_maib_shop_return_url'] = (defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG)
+		$data['payment_maib_shop_return_url'] = (defined('\HTTPS_CATALOG') ? \HTTPS_CATALOG : \HTTP_CATALOG)
 			. 'index.php?route=extension/payment/maib/return';
 
 		$this->load->model('localisation/geo_zone');
@@ -67,22 +69,22 @@ class ControllerExtensionPaymentMaib extends Controller {
 
 		$this->load->model('localisation/order_status');
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
-		
-		$template = 'extension/payment/maib';
+
+		$template = 'extension/maib/payment/maib';
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view($template, $data));	
+		$this->response->setOutput($this->load->view($template, $data));
 	}
 
-	private function validate() {
+	private function validate(): bool {
 		$post_data = $this->request->post;
 
-		if (!$this->user->hasPermission('modify', 'extension/payment/maib')) {
+		if (!$this->user->hasPermission('modify', 'extension/maib/payment/maib')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-		
+
 		$required = array('payment_maib_private_key_file', 'payment_maib_public_key_file');
 
 		foreach ($required as $field) {
@@ -90,23 +92,23 @@ class ControllerExtensionPaymentMaib extends Controller {
 				$this->error[$field] = $this->language->get('error_empty_field');
 			}
 		}
-		
+
 		if (count($this->error)) {
 			return false;
 		}
-		
+
 		$pkey = (preg_match('/^\//', $post_data['payment_maib_private_key_file']) ?
 			'' : rtrim(DIR_SYSTEM, '/') . '/') . $post_data['payment_maib_private_key_file'];
 		if (empty($this->error['payment_maib_private_key_file']) && !file_exists($pkey)) {
 			$this->error['payment_maib_private_key_file'] = $this->language->get('error_key_file_not_found');
 		}
-		
+
 		$cert = (preg_match('/^\//', $post_data['payment_maib_public_key_file']) ?
 			'' : rtrim(DIR_SYSTEM, '/') . '/') . $post_data['payment_maib_public_key_file'];
 		if (empty($this->error['payment_maib_public_key_file']) && !file_exists($cert)) {
 			$this->error['payment_maib_public_key_file'] = $this->language->get('error_key_file_not_found');
 		}
-		
+
 		if (function_exists('openssl_x509_check_private_key')
 			&& empty($this->error['payment_maib_public_key_file'])
 			&& empty($this->error['payment_maib_private_key_file'])) {
@@ -122,46 +124,46 @@ class ControllerExtensionPaymentMaib extends Controller {
 
 		return empty($this->error);
 	}
-	
-	private function getBreadCrumbs() {
-		$breadcrumbs = array();
 
-		$breadcrumbs[] = array(
+	private function getBreadCrumbs(): array {
+		$breadcrumbs = [];
+
+		$breadcrumbs[] = [
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/dashboard', 'user_token='
-				. $this->session->data['user_token'], 'SSL'),
-			'separator' => false
-		);
+				. $this->session->data['user_token'])
+		];
 
-		$breadcrumbs[] = array(
+		$breadcrumbs[] = [
 			'text' => $this->language->get('text_extensions'),
 			'href' => $this->url->link('marketplace/extension', 'user_token='
-				. $this->session->data['user_token'] . '&type=payment', true),
-			'separator' => ' :: '
-		);
+				. $this->session->data['user_token'] . '&type=payment')
+		];
 
 		$breadcrumbs[] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/payment/maib', 'user_token='
-				. $this->session->data['user_token'], 'SSL'),      		
-			'separator' => ' :: '
+			'href' => $this->url->link('extension/maib/payment/maib', 'user_token='
+				. $this->session->data['user_token'])
 		);
-		
+
 		return $breadcrumbs;
 	}
-	
-	private function getPostData() {
+
+	private function getPostData(): array {
 		$defautls = $this->getDefaults();
 		foreach ($defautls as $key => $value) {
 			$config = $this->config->get($key);
+			if (is_numeric($value) && $config === '') {
+				$config = null;
+			}
 			if ($config !== null) {
 				$defautls[$key] = $config;
 			}
 		}
 		return array_merge($defautls, $this->request->post);
 	}
-	
-	private function getDefaults() {
+
+	private function getDefaults(): array {
 		return array(
 			'payment_maib_private_key_file' => '',
 			'payment_maib_private_key_password' => '',

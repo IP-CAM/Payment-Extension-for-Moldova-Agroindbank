@@ -1,8 +1,8 @@
 # Moldova Agroindbank (maib) payment method for OpenCart
 
-#### oc-maib
 [![N|Solid](https://www.maib.md/images/logo.svg)](https://www.maib.md)
 
+https://github.com/maibank/oc-maib
 
 CONTENTS OF THIS FILE
 =====================
@@ -36,8 +36,7 @@ INSTALLATION
 
  * Method 1 (preferred): via Marketplace > Extensions page of you site administration panel.
  * Method 2: upload extension zip file to Marketplace > Extensions installer page of your site.
- * Method 3 (advanced): extract contents of zip file to your site extensions directory (upload/extension/oc-maib).
- * Method 4 (developper): clone or download extension source code from github, run composer install in the library folder and copy oc-maib folder to upload/extension. 
+ * Method 3 (developper): clone or download extension source code from github, run composer install in the library folder, create and upload extension zip file on Extensions installer page. 
 
 
 BEFORE USAGE

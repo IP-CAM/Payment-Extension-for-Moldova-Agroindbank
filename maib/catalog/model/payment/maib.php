@@ -1,7 +1,9 @@
-<?php 
-class ModelExtensionPaymentMaib extends Model {
-	public function getMethod($address, $total) {
-		$this->load->language('extension/payment/maib');
+<?php
+namespace Opencart\Catalog\Model\Extension\Maib\Payment;
+class Maib extends \Opencart\System\Engine\Model {
+	public function getMethod($address): array {
+		$this->load->language('extension/maib/payment/maib');
+		$total = $this->cart->getTotal();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone
 			WHERE geo_zone_id = '" . (int)$this->config->get('payment_maib_geo_zone_id') . "'
@@ -30,21 +32,5 @@ class ModelExtensionPaymentMaib extends Model {
 		}
 		return $method_data;
 	}
-	
-	public function setClosedDay($closed_day, $store_id) {
-		$key = 'payment_maib_last_closed_day';
-		$query = $this->db->query("SELECT value FROM " . DB_PREFIX . "setting
-			WHERE store_id = '" . (int)$store_id . "' AND `key` = '" . $this->db->escape($key) . "'");
 
-		if ($query->num_rows) {
-			$this->db->query("UPDATE " . DB_PREFIX . "setting
-				SET `value` = '" . $this->db->escape($closed_day) . "'
-				WHERE `code` = 'payment_maib' AND `key` = '" . $this->db->escape($key) . "' AND store_id = '" . (int)$store_id . "'");
-		} else {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "setting
-				SET store_id = '" . (int)$store_id . "', `code` = 'payment_maib',
-				`key` = '" . $this->db->escape($key) . "', `value` = '" . $this->db->escape($closed_day) . "'");
-		}
-	}
 }
-?>

@@ -21,6 +21,7 @@ class Maib extends \Opencart\System\Engine\Controller {
 		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
 			$this->model_setting_setting->editSetting('payment_maib', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
+			$this->checkCron();
 			$this->response->redirect($this->url->link('marketplace/extension', 'user_token='
 				. $this->session->data['user_token'] . '&type=payment', true));
 		}
@@ -62,7 +63,7 @@ class Maib extends \Opencart\System\Engine\Controller {
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token='
 			. $this->session->data['user_token'] . '&type=payment', true);
 		$data['payment_maib_shop_return_url'] = (defined('\HTTPS_CATALOG') ? \HTTPS_CATALOG : \HTTP_CATALOG)
-			. 'index.php?route=extension/payment/maib/return';
+			. 'index.php?route=extension/maib/payment/done';
 
 		$this->load->model('localisation/geo_zone');
 		$data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
@@ -181,5 +182,13 @@ class Maib extends \Opencart\System\Engine\Controller {
 			'payment_maib_debug' => 0,
 			'payment_maib_last_closed_day' => '',
 		);
+	}
+
+	public function checkCron(): void {
+		$this->load->model('setting/cron');
+		if (!$this->model_setting_cron->getCronByCode('maib')) {
+			$this->model_setting_cron
+				->addCron('maib', 'Close day', 'day', 'extension/maib/cron/maib', true);
+		}
 	}
 }

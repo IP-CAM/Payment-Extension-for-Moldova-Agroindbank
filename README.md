@@ -1,4 +1,4 @@
-# Moldova Agroindbank (maib) payment method for OpenCart
+# MAIB payment method for OpenCart
 
 #### oc-maib
 [![N|Solid](https://www.maib.md/images/logo.svg)](https://www.maib.md)

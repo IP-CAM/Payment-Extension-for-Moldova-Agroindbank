@@ -589,16 +589,16 @@
         },
         {
             "name": "maib/maibapi",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maibank/maibapi.git",
-                "reference": "579c95e65784e3c46ed03625404bd1a13bfe0f2f"
+                "reference": "0a58e70384777d94c60ef3d45ed6ea7e7d84fb1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maibank/maibapi/zipball/579c95e65784e3c46ed03625404bd1a13bfe0f2f",
-                "reference": "579c95e65784e3c46ed03625404bd1a13bfe0f2f",
+                "url": "https://api.github.com/repos/maibank/maibapi/zipball/0a58e70384777d94c60ef3d45ed6ea7e7d84fb1e",
+                "reference": "0a58e70384777d94c60ef3d45ed6ea7e7d84fb1e",
                 "shasum": ""
             },
             "require": {
@@ -631,9 +631,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maibank/maibapi/issues",
-                "source": "https://github.com/maibank/maibapi/tree/3.0.2"
+                "source": "https://github.com/maibank/maibapi/tree/3.0.3"
             },
-            "time": "2022-09-22T13:36:18+00:00"
+            "time": "2022-10-11T15:41:01+00:00"
         },
         {
             "name": "monolog/monolog",

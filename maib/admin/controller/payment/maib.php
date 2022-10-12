@@ -47,8 +47,8 @@ class Maib extends \Opencart\System\Engine\Controller {
 				 . '<br>define(\'PAYMENT_MAIB_REDIRECT_URL\', "https://maib.ecommerce.md:123/ecomm456/ClientHandler");';
 		}
 
-		$data['payment_maib_merchant_url']['Default test'] = MaibClient::MAIB_TEST_BASE_URI . '/ecomm/MerchantHandler';
-		$data['payment_maib_merchant_url']['Default live'] = MaibClient::MAIB_LIVE_BASE_URI . '/ecomm/MerchantHandler';
+		$data['payment_maib_merchant_url']['Default test'] = MaibClient::MAIB_TEST_BASE_URI;
+		$data['payment_maib_merchant_url']['Default live'] = MaibClient::MAIB_LIVE_BASE_URI;
 		if (defined('\PAYMENT_MAIB_MERCHANT_URL')) {
 			$data['payment_maib_merchant_url']['From config.php'] = \PAYMENT_MAIB_MERCHANT_URL;
 		}

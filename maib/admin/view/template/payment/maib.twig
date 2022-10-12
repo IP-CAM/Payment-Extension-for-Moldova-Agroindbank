@@ -198,6 +198,13 @@ openssl pkcs12 -in certificate.pfx -nokeys -out full-chain-certificate.pem</pre>
     </div>
 
     <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ enable_cron }}</label>
+      <div class="col-sm-10">
+        {{ enable_cron_help }}
+      </div>
+    </div>
+
+    <div class="row mb-3">
       <label class="col-sm-2 col-form-label" for="input-last-closed-day">{{ entry_last_closed_day }}</label>
       <div class="col-sm-10">
         <input name="payment_maib_last_closed_day" id="input-last-closed-day" class="form-control" type="text" readonly value="{{ _form.payment_maib_last_closed_day }}" />

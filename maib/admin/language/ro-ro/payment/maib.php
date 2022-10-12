@@ -41,12 +41,14 @@ $_['entry_order_pending_status'] = 'Starea comenzii pentru tranzacțiile maib î
 $_['entry_geo_zone'] = 'Zona geografică';
 $_['entry_status'] = 'Statut';
 $_['entry_sort_order'] = 'Ordinea sortare';
-$_['entry_last_closed_day'] = 'Ultima dată a fost apelat close business day';
+$_['entry_last_closed_day'] = 'Ultima dată a fost apelată închiderea zilei lucrătoare';
 
 // Errors
 $_['error_permission'] = 'Nu aveți permisiunea de a modifica setările MAIB!';
 $_['error_empty_field'] = 'Acest câmp nu trebuie să fie gol!';
 $_['error_key_file_not_found'] = 'Fișierul nu a fost găsit!';
-$_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!'
+$_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!';
 
-?>
+// Cron
+$_['enable_cron'] = 'Activați CRON';
+$_['enable_cron_help'] = 'Asigurați-vă că cron job-urile OpenCart sunt configurate corect și că vor declanșa închiderea zilei lucrătoare undeva pe la miezului nopții.<br>Pentru mai multe informații accesați <i>Extensii &raquo; Cron Jobs</i>.';

@@ -47,6 +47,8 @@ $_['entry_last_closed_day'] = 'Last date business day closed';
 $_['error_permission'] = 'You do not have permission to modify payment MAIB!';
 $_['error_empty_field'] = 'This field must not be empty!';
 $_['error_key_file_not_found'] = 'File not found!';
-$_['error_key_file_not_match'] = 'The private key does not corresponds to certificate!'
+$_['error_key_file_not_match'] = 'The private key does not corresponds to certificate!';
 
-?>
+// Cron
+$_['enable_cron'] = 'Enable CRON';
+$_['enable_cron_help'] = 'Make sure OpenCart cron jobs are setup properly and will trigger closing of business day somewhere around midnight.<br>Got to <i>Extensions &raquo; Cron Jobs</i> for more info.';

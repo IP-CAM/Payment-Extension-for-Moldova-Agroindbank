@@ -11,16 +11,19 @@ class Done extends Maib {
 
 		$tries = 2;
 		$post_transaction_id = null;
-		$order_id = null;
+		$order_id = empty($this->session->data['order_id']) ? null :
+			'_SESSION_' . $this->session->data['order_id'];
 		try {
 			if (empty($this->request->post['trans_id'])) {
 				throw new \Exception('Missing TRANSACTION_ID');
 			}
 			$post_transaction_id = $this->request->post['trans_id'];
-			if (empty($this->session->data['order_id'])) {
-				throw new \Exception('Missing Order ID');
+			$order_query = $this->db->query("SELECT order_id FROM " . DB_PREFIX . "maib_transaction
+				WHERE transaction_id = '" . $this->db->escape($post_transaction_id) . "'");
+			if (empty($order_query->row['order_id'])) {
+				throw new \Exception('Order ID not found in transactions table');
 			}
-			$order_id = $this->session->data['order_id'];
+			$order_id = $order_query->row['order_id'];
 			$user_ip = $this->getUserIp();
 			$client = $this->getMaibClient();
 

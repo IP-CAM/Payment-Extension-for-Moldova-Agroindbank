@@ -46,6 +46,10 @@ class Maib extends \Opencart\System\Engine\Controller {
 				$data['transaction_id'] = $transaction['TRANSACTION_ID'];
 				$this->session->data['transaction_id'] = $transaction['TRANSACTION_ID'];
 				$data['action_url'] = $this->getRedirectUrl();
+				$this->db->query("INSERT INTO " . DB_PREFIX . "maib_transaction SET
+					transaction_id = '" . $this->db->escape($transaction['TRANSACTION_ID']) . "',
+					order_id = '" . (int)$order_info['order_id'] . "',
+					date_added = '" . date('Y-m-d H:i:s') . "'");
 				$this->log(strtr('New transaction @transid for order @orderid', [
 					'@transid' => $transaction['TRANSACTION_ID'],
 					'@orderid' => $order_info['order_id'],

@@ -44,9 +44,8 @@ trait MaibTrait {
 		elseif ($this->config->get('payment_maib_mode') == 'live') {
 			$base_url = MaibClient::MAIB_LIVE_BASE_URI;
 		}
-		elseif (defined('PAYMENT_MAIB_MERCHANT_URL') && preg_match('#^(https://[^/]+)(.*)#', PAYMENT_MAIB_MERCHANT_URL, $m)) {
-			$base_url = $m[1];
-			$custom_url_path = $m[2];
+		elseif (defined('\PAYMENT_MAIB_MERCHANT_URL')) {
+			$base_url = \PAYMENT_MAIB_MERCHANT_URL;
 		}
 		else {
 			throw new \Exception('Client cannot be initiated, invalid or missing merchant url');
@@ -77,12 +76,7 @@ trait MaibTrait {
 		}
 
 		$guzzleClient = new Client($options);
-		$description_options = [];
-		if (!empty($custom_url_path)) {
-			$description_options['basePath'] = $custom_url_path;
-		}
-		$description = new MaibDescription($description_options);
-		$this->maibClient = new MaibClient($guzzleClient, $description);
+		$this->maibClient = new MaibClient($guzzleClient);
 
 		return $this->maibClient;
 	}

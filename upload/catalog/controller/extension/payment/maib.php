@@ -35,9 +35,8 @@ class ControllerExtensionPaymentMaib extends Controller {
 		elseif ($this->config->get('payment_maib_mode') == 'live') {
 			$base_url = MaibClient::MAIB_LIVE_BASE_URI;
 		}
-		elseif (defined('PAYMENT_MAIB_MERCHANT_URL') && preg_match('#^(https://[^/]+)(.*)#', PAYMENT_MAIB_MERCHANT_URL, $m)) {
-			$base_url = $m[1];
-			$custom_url_path = $m[2];
+		elseif (defined('PAYMENT_MAIB_MERCHANT_URL')) {
+			$base_url = PAYMENT_MAIB_MERCHANT_URL;
 		}
 		else {
 			throw new Exception('Client cannot be initiated, invalid or missing merchant url');
@@ -79,12 +78,7 @@ class ControllerExtensionPaymentMaib extends Controller {
 		}
 
 		$guzzleClient = new Client($options);
-		$description_options = [];
-		if (!empty($custom_url_path)) {
-			$description_options['basePath'] = $custom_url_path;
-		}
-		$description = new MaibDescription($description_options);
-		$this->maibClient = new MaibClient($guzzleClient, $description);
+		$this->maibClient = new MaibClient($guzzleClient);
 
 		if (!$guzzle_6 && $this->config->get('payment_maib_debug')) {
 			$subscriber = new GuzzleHttp\Subscriber\Log\LogSubscriber($log, GuzzleHttp\Subscriber\Log\Formatter::SHORT);
@@ -136,6 +130,10 @@ class ControllerExtensionPaymentMaib extends Controller {
 				$data['transaction_id'] = $transaction['TRANSACTION_ID'];
 				$this->session->data['transaction_id'] = $transaction['TRANSACTION_ID'];
 				$data['action_url'] = $this->getRedirectUrl();
+				$this->db->query("INSERT INTO " . DB_PREFIX . "maib_transaction SET
+					transaction_id = '" . $this->db->escape($transaction['TRANSACTION_ID']) . "',
+					order_id = '" . (int)$order_info['order_id'] . "',
+					date_added = '" . date('Y-m-d H:i:s') . "'");
 				$this->log(strtr('New transaction @transid for order @orderid', [
 					'@transid' => $transaction['TRANSACTION_ID'],
 					'@orderid' => $order_info['order_id'],
@@ -180,15 +178,19 @@ class ControllerExtensionPaymentMaib extends Controller {
 		$this->load->model('checkout/order');
 		
 		$tries = 2;
+		$order_id = empty($this->session->data['order_id']) ? null :
+			'_SESSION_' . $this->session->data['order_id'];
 		try {
 			if (empty($this->request->post['trans_id'])) {
 				throw new Exception('Missing TRANSACTION_ID');
 			}
 			$post_transaction_id = $this->request->post['trans_id'];
-			if (empty($this->session->data['order_id'])) {
-				throw new Exception('Missing Order ID');
+			$order_query = $this->db->query("SELECT order_id FROM " . DB_PREFIX . "maib_transaction
+				WHERE transaction_id = '" . $this->db->escape($post_transaction_id) . "'");
+			if (empty($order_query->row['order_id'])) {
+				throw new Exception('Order ID not found in transactions table');
 			}
-			$order_id = $this->session->data['order_id'];
+			$order_id = $order_query->row['order_id'];
 			$user_ip = $this->getUserIp();
 			$client = $this->getMaibClient();
 
@@ -216,7 +218,7 @@ class ControllerExtensionPaymentMaib extends Controller {
 			}
 			if ($tres['RESULT'] == 'PENDING') {
 				$log_message = 'Failed to confirm payment transaction status'
-					. ', still in pending for order ' . $this->session->data['order_id']
+					. ', still in pending for order ' . $order_id
 					. ', trans_id ' . $post_transaction_id
 					. ', ' . print_r($tres, true);
 				$this->log($log_message, 'Error');
@@ -232,7 +234,7 @@ class ControllerExtensionPaymentMaib extends Controller {
 		}
 		catch (Exception $e) {
 			$log_message = 'Failed payment with exception for order '
-				. $this->session->data['order_id'] . ': ' . $e->getMessage();
+				. $order_id . ': ' . $e->getMessage();
 			$this->log($log_message, 'Error');
 			$this->session->data['error'] = $this->language->get('error_no_payment');
 			$this->response

@@ -167,9 +167,7 @@ class ControllerExtensionPaymentMaib extends Controller {
 			'payment_maib_private_key_password' => '',
 			'payment_maib_public_key_file' => '',
 			'payment_maib_mode' => 'test',
-			//'payment_maib_merchant_url' => 'https://maib.ecommerce.md:21440/ecomm/MerchantHandler',
-			//'payment_maib_redirect_url' => 'https://maib.ecommerce.md:21443/ecomm/ClientHandler',
-			//'payment_maib_method' => 'sms',
+			'payment_maib_method' => 'sms',
 			'payment_maib_total' => 0,
 			'payment_maib_order_status_id' => 1,
 			'payment_maib_order_pending_status_id' => 1,
@@ -180,4 +178,17 @@ class ControllerExtensionPaymentMaib extends Controller {
 			'payment_maib_last_closed_day' => '',
 		);
 	}
+
+	public function install() {
+		$this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "maib_transaction (
+			transaction_id char(32) NOT NULL,
+			order_id int NOT NULL,
+			date_added char(20) NOT NULL,
+			PRIMARY KEY (transaction_id))");
+	}
+
+	public function uninstall() {
+		$this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . "maib_transaction");
+	}
+
 }

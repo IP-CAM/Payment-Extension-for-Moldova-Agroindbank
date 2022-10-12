@@ -44,8 +44,8 @@ class ControllerExtensionPaymentMaib extends Controller {
 				 . '<br>define("PAYMENT_MAIB_REDIRECT_URL", "https://maib.ecommerce.md:123/ecomm456/ClientHandler");';
 		}
 		
-		$data['payment_maib_merchant_url']['Default test'] = MaibClient::MAIB_TEST_BASE_URI . '/ecomm/MerchantHandler';
-		$data['payment_maib_merchant_url']['Default live'] = MaibClient::MAIB_LIVE_BASE_URI . '/ecomm/MerchantHandler';
+		$data['payment_maib_merchant_url']['Default test'] = MaibClient::MAIB_TEST_BASE_URI;
+		$data['payment_maib_merchant_url']['Default live'] = MaibClient::MAIB_LIVE_BASE_URI;
 		if (defined('PAYMENT_MAIB_MERCHANT_URL')) {
 			$data['payment_maib_merchant_url']['From config.php'] = PAYMENT_MAIB_MERCHANT_URL;
 		}
@@ -61,6 +61,9 @@ class ControllerExtensionPaymentMaib extends Controller {
 			. $this->session->data['user_token'] . '&type=payment', true);
 		$data['payment_maib_shop_return_url'] = (defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG)
 			. 'index.php?route=extension/payment/maib/return';
+		$data['payment_maib_cron_url'] = '59 23 * * * /usr/bin/wget -O - -q -t 1 '
+			. (defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG)
+			. 'index.php?route=extension/payment/maib/closeday 2>&1 >/dev/null';
 
 		$this->load->model('localisation/geo_zone');
 		$data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();

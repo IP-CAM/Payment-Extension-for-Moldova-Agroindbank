@@ -47,6 +47,9 @@ $_['entry_last_closed_day'] = 'Ultima dată a fost apelat close business day';
 $_['error_permission'] = 'Nu aveți permisiunea de a modifica setările MAIB!';
 $_['error_empty_field'] = 'Acest câmp nu trebuie să fie gol!';
 $_['error_key_file_not_found'] = 'Fișierul nu a fost găsit!';
-$_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!'
+$_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!';
 
+// Cron
+$_['enable_cron'] = 'Activați CRON';
+$_['enable_cron_help'] = 'Asigurați-vă că un cron job va declanșa închiderea zilei lucrătoare(close business day) undeva pe la miezului nopții. Pot fi folosite wget, curl sau alte aplicații similare.<br>Exemplu de linie crontab(5) Unix';
 ?>

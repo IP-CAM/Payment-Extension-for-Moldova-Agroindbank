@@ -51,5 +51,5 @@ $_['error_key_file_not_match'] = 'The private key does not corresponds to certif
 
 // Cron
 $_['enable_cron'] = 'Enable CRON';
-$_['enable_cron_help'] = 'Make sure a cron job will trigger clossing of business day somethere around midnight. Wget, curl or similar can be used.<br>Example of unix crontab(5) line';
+$_['enable_cron_help'] = 'Make sure a cron job will trigger closing of business day somewhere around midnight. Wget, curl or similar can be used.<br>Example of unix crontab(5) line';
 ?>

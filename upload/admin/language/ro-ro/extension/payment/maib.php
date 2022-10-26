@@ -52,4 +52,11 @@ $_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!';
 // Cron
 $_['enable_cron'] = 'Activați CRON';
 $_['enable_cron_help'] = 'Asigurați-vă că un cron job va declanșa închiderea zilei lucrătoare(close business day) undeva pe la miezului nopții. Pot fi folosite wget, curl sau alte aplicații similare.<br>Exemplu de linie crontab(5) Unix';
+
+// SameSite Cookies
+$_['entry_fix_cookies_label'] = 'Soluție pentru cookie-uri';
+$_['entry_fix_cookies'] = 'Dacă atributul SameSite al unui cookie nu este setat, acesta este implicit SameSite=Lax, ceea ce împiedică trimiterea cookie-ului într-o solicitare între site-uri.<br>Acest comportament protejează datele utilizatorului împotriva scurgerii accidentale către terțe părți.<br>Din cauza acestui comportament, la întoarcerea de pe site-ul băncii, după o plată reușită, sesiunea utilizatorului, limba selectată și moneda se pierd.<br>Dacă nu aveți alte soluții pentru această problemă (extensie contrib, setări specifice php sau pe serverul web), puteți bifa ce cookie-uri ar trebui suprascrise cu <i>SameSite=None;Secure</i> pentru a păstra sesiunea, limba sau moneda în funcție de configurația dvs.<br>Vă rugăm să rețineți că acest lucru va funcționa numai dacă este utilizat <i>https</i>.';
+$_['entry_fix_session_cookie'] = 'Adăugați SameSite=None la cookie de sesiune';
+$_['entry_fix_language_cookie'] = 'Adăugați SameSite=None la cookie de limbă';
+$_['entry_fix_currency_cookie'] = 'Adăugați SameSite=None la cookie-ul valutar';
 ?>

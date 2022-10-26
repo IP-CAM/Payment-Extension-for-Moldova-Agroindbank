@@ -52,4 +52,11 @@ $_['error_key_file_not_match'] = 'The private key does not corresponds to certif
 // Cron
 $_['enable_cron'] = 'Enable CRON';
 $_['enable_cron_help'] = 'Make sure a cron job will trigger closing of business day somewhere around midnight. Wget, curl or similar can be used.<br>Example of unix crontab(5) line';
+
+// SameSite Cookies
+$_['entry_fix_cookies_label'] = 'Lost session/cookies workaround';
+$_['entry_fix_cookies'] = 'If a cookie’s SameSite attribute is not set, it defaults to SameSite=Lax, which prevents the cookie from being sent in a cross-site request.<br>This behavior protects user data from accidentally leaking to third parties and cross-site request forgery.<br>Because of this behavior, on return from bank site, after a successful payment, user session, selected language and currency are lost.<br>If you do not have other solutions for this issue (contrib extension, php or web server specific settings), you can check which cookies should be overwritten with <i>SameSite=None;Secure</i> in order to preserve session, language or currency based on your setup.<br>Please note, this will work only if <i>https</i> is used.';
+$_['entry_fix_session_cookie'] = 'Add SameSite=None to session cookie';
+$_['entry_fix_language_cookie'] = 'Add SameSite=None to language cookie';
+$_['entry_fix_currency_cookie'] = 'Add SameSite=None to currency cookie';
 ?>

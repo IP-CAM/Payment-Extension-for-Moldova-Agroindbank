@@ -59,10 +59,10 @@ class ControllerExtensionPaymentMaib extends Controller {
 		
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token='
 			. $this->session->data['user_token'] . '&type=payment', true);
-		$data['payment_maib_shop_return_url'] = (defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG)
+		$data['payment_maib_shop_return_url'] = (defined('HTTPS_CATALOG') ? HTTPS_CATALOG : HTTP_CATALOG)
 			. 'index.php?route=extension/payment/maib/return';
 		$data['payment_maib_cron_url'] = '59 23 * * * /usr/bin/wget -O - -q -t 1 '
-			. (defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG)
+			. (defined('HTTPS_CATALOG') ? HTTPS_CATALOG : HTTP_CATALOG)
 			. 'index.php?route=extension/payment/maib/closeday 2>&1 >/dev/null';
 
 		$this->load->model('localisation/geo_zone');
@@ -179,6 +179,9 @@ class ControllerExtensionPaymentMaib extends Controller {
 			'payment_maib_sort_order' => 1,
 			'payment_maib_debug' => 0,
 			'payment_maib_last_closed_day' => '',
+			'payment_maib_fix_session_cookie' => 0,
+			'payment_maib_fix_language_cookie' => 0,
+			'payment_maib_fix_currency_cookie' => 0,
 		);
 	}
 

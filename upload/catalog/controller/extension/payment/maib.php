@@ -149,6 +149,7 @@ class ControllerExtensionPaymentMaib extends Controller {
 			return;
 		}
 		
+		$this->fixCookiesSameSite();
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$template = 'extension/payment/maib';
 		return $this->load->view($template, $data);
@@ -165,6 +166,48 @@ class ControllerExtensionPaymentMaib extends Controller {
 			return PAYMENT_MAIB_REDIRECT_URL;
 		}
 		throw new Exception('Invalid or missing redirect URL');
+	}
+
+	/**
+	 * Because of CSRF mitigation modern brlowsers will skip cookies with
+	 * SameSite Lax or Strict on submitted requests by POST. This happens
+	 * on return after payment completed. To overcome this situation we will
+	 * set SameSite to None so on return user session cookie will be kept.
+	 */
+	public function fixCookiesSameSite() {
+		if (PHP_VERSION_ID >= 70300) {
+			$fix = array(
+				'expires' =>  time() + 60 * 60 * 24 * 30,
+				'path' => '/',
+				'domain' => $this->request->server['HTTP_HOST'],
+				'secure' => true,
+				'samesite' => 'None',
+			);
+			if ($this->config->get('payment_maib_fix_session_cookie')) {
+				setcookie($this->config->get('session_name'), $this->session->getId(), array(
+					'expires' => ini_get('session.cookie_lifetime'),
+					'path' => ini_get('session.cookie_path'),
+					'domain' => ini_get('session.cookie_domain')) + $fix);
+			}
+			if ($this->config->get('payment_maib_fix_language_cookie')) {
+				setcookie('language', $this->session->data['language'], $fix);
+			}
+			if ($this->config->get('payment_maib_fix_currency_cookie')) {
+				setcookie('currency', $this->session->data['currency'], $fix);
+			}
+		}
+		else {
+			$fix = '; SameSite=None; Secure';
+			if ($this->config->get('payment_maib_fix_session_cookie')) {
+				setcookie($this->config->get('session_name'), $this->session->getId(), ini_get('session.cookie_lifetime'), ini_get('session.cookie_path') . $fix, ini_get('session.cookie_domain'));
+			}
+			if ($this->config->get('payment_maib_fix_language_cookie')) {
+				setcookie('language', $this->session->data['language'], time() + 60 * 60 * 24 * 30, '/' . $fix, $this->request->server['HTTP_HOST']);
+			}
+			if ($this->config->get('payment_maib_fix_currency_cookie')) {
+				setcookie('currency', $this->session->data['currency'], time() + 60 * 60 * 24 * 30, '/' . $fix, $this->request->server['HTTP_HOST']);
+			}
+		}
 	}
 
 	public function error() {

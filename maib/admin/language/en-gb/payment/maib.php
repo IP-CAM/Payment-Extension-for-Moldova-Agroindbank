@@ -52,3 +52,7 @@ $_['error_key_file_not_match'] = 'The private key does not corresponds to certif
 // Cron
 $_['enable_cron'] = 'Enable CRON';
 $_['enable_cron_help'] = 'Make sure OpenCart cron jobs are setup properly and will trigger closing of business day somewhere around midnight.<br>Got to <i>Extensions &raquo; Cron Jobs</i> for more info.';
+
+// SameSite Cookies
+$_['entry_fix_cookies_label'] = 'Lost session/cookies workaround';
+$_['entry_fix_cookies'] = 'If a cookie’s SameSite attribute is Lax or Strict, they are not sent in a cross-site request.<br>This behavior protects user data from accidentally leaking to third parties and cross-site request forgery.<br>Because of this behavior, on return from bank site, after a successful payment, user session is lost.<br>To fix this issue set  <i>SameSite</i> to <b>None</b> (<b>System &raquo; Settings &raquo; Edit Your store &raquo; Server &raquo; Session Samesite Cookie</b>).';

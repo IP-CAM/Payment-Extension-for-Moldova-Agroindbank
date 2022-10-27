@@ -14,10 +14,10 @@ class Done extends Maib {
 		$order_id = empty($this->session->data['order_id']) ? null :
 			'_SESSION_' . $this->session->data['order_id'];
 		try {
-			if (empty($this->request->post['trans_id'])) {
+			if (empty($this->request->request['trans_id'])) {
 				throw new \Exception('Missing TRANSACTION_ID');
 			}
-			$post_transaction_id = $this->request->post['trans_id'];
+			$post_transaction_id = $this->request->request['trans_id'];
 			$order_query = $this->db->query("SELECT order_id FROM " . DB_PREFIX . "maib_transaction
 				WHERE transaction_id = '" . $this->db->escape($post_transaction_id) . "'");
 			if (empty($order_query->row['order_id'])) {

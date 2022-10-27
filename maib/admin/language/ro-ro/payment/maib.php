@@ -52,3 +52,7 @@ $_['error_key_file_not_match'] = 'Cheia privată nu corespunde certificatului!';
 // Cron
 $_['enable_cron'] = 'Activați CRON';
 $_['enable_cron_help'] = 'Asigurați-vă că cron job-urile OpenCart sunt configurate corect și că vor declanșa închiderea zilei lucrătoare undeva pe la miezului nopții.<br>Pentru mai multe informații accesați <i>Extensii &raquo; Cron Jobs</i>.';
+
+// SameSite Cookies
+$_['entry_fix_cookies_label'] = 'Sesiune pierdută/soluție pentru cookie-uri';
+$_['entry_fix_cookies'] = 'Dacă atributul SameSite al unui cookie este Lax sau Strict, acestea nu sunt trimise într-o solicitare între site-uri.<br>Acest comportament protejează datele utilizatorului împotriva scurgerii accidentale către terți și falsificarea cererilor pe mai multe site-uri.<br>Din cauza acestui comportament, la întoarcerea de pe site-ul băncii, după o plată cu succes, sesiunea utilizatorului este pierdută.<br>Pentru a remedia această problemă, setați <i>SameSite</i> la <b>Niciuna</b> (<b>Sistem &raquo; Setări &raquo; Editați magazinul dvs. &raquo; Server &raquo; Session Samesite Cookie</b>).';

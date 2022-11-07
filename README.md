@@ -49,9 +49,9 @@ INSTALLATION
 BEFORE USAGE
 ============
 
-To initiate an payment transaction you will need get the access by IP and set the return callback URL of your site at bank side.
+Is required to provide IP and Callback from your ecommerce solution!
 
-Write an email to Maib commerce support (ecom@maib.md) and indicate your site's external IP address and callback URL (it is available on the extensions settings page after installation).
+Write an email to maib ecommerce support (ecom@maib.md) and indicate your site's external IP address and Callback URL (it is available on the extensions settings page after installation).
 
 
 USAGE

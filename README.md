@@ -2,7 +2,7 @@
 
 [![N|Solid](https://www.maib.md/images/logo.svg)](https://www.maib.md)
 
-Download modules on opencart.com (v. 3.x and 4.x)
+Download extensions on opencart.com (v. 3.x and 4.x)
 
 https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=44246
 
@@ -55,10 +55,11 @@ USAGE
 =====
 
  * Adjust accordingly extensions options on admin page.
- * Follow mail instructions in order to perform few payments in testing mode (adjust extensions setings accordingly).
- * Make sure cron is setup properly on your site, this extension will make automated requests to bank at midnight in order to close business day.
- * After you get the certificate, extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
- * If received client redirect and/or merchant urls do not match extensions default live urls - add this urls to admin and catalog config.php files (details on settings page) and adjust mode option to use new urls.
+ * Test certificates you can find in github repository.
+ * The following tests are required: payment, payment reversal and closing of business day.
+ * For payment reversal change status order to ***Reversed***.
+ * Make sure cron is setup properly on your site, this extension will make automated requests at midnight in order to close business day.
+ * After successful tests you will get .pfx certificate for live transactions from maib. Extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
 
 
 TROUBLESHOTING
@@ -69,10 +70,10 @@ Enable debug option on settings page, this will activate full requests logging t
 If further support is required, you can contact bank ecommerce support by writing an email to ecom@maib.md.
 Please provide in the mail following information:
 
-- Merchant name,
-- Web site name,
-- Date and time of the transaction made with errors
-- Responses received from the server
+- Merchant name;
+- Web site name;
+- Date and time of the transaction made with errors;
+- Responses received from the server;
 
 
 MAINTAINERS

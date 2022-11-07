@@ -61,10 +61,7 @@ USAGE
  * Test certificates you can find in github repository.
  * The following tests are required: payment, payment reversal and closing of business day.
  * Follow mail instructions in order to perform few payments in testing mode (adjust extensions setings accordingly).
- * Setup a cron job which will trigger clossing of business day somethere around midnight. Wget or curl can be used. 
- 
- Ex: "*wget https://your.site/index.php?route=extension/payment/maib/closeday*"
- 
+ * Setup a cron job which will trigger clossing of business day somethere around midnight. Wget or curl can be used. Ex: "*wget https://your.site/index.php?route=extension/payment/maib/closeday*"
  * After you get the certificate, extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
  * If received client redirect and/or merchant urls do not match extensions default live urls - add this urls to admin and catalog config.php files (details on settings page) and adjust mode option to use new urls.
 

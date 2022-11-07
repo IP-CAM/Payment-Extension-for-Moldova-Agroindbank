@@ -73,10 +73,10 @@ Enable debug option on settings page, this will activate full requests logging t
 If further support is required, you can contact bank ecommerce support by writing an email to ecom@maib.md.
 Please provide in the mail following information:
 
-- Merchant name,
-- Web site name,
-- Date and time of the transaction made with errors
-- Responses received from the server
+- Merchant name;
+- Web site name;
+- Date and time of the transaction made with errors;
+- Responses received from the server;
 
 
 MAINTAINERS

@@ -6,7 +6,7 @@ Download extension (v. 3.x and 4.x)
 
 https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=44246
 
-https://github.com/maibank/oc-maib
+Github: https://github.com/maibank/oc-maib
 
 CONTENTS OF THIS FILE
 =====================

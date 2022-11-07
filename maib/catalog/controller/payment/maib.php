@@ -12,6 +12,7 @@ class Maib extends \Opencart\System\Engine\Controller {
 		$this->load->model('checkout/order');
 
 		$currency_codes = array(
+			'USD' => 840,
 			'EUR' => 978,
 			'MDL' => 498
 		);
@@ -69,4 +70,70 @@ class Maib extends \Opencart\System\Engine\Controller {
 		return $this->load->view($template, $data);
 	}
 
+public function addOrderHistoryBefore($route, &$data) {
+        $order_id = $data[0];
+        $order_status_id = $data[1];
+        $comment = ($data[2] ?? '');
+        $notify = ($data[2] ?? false);
+        $override = ($data[2] ?? false);
+
+        if ($order_status_id == 12) {
+            $this->load->model('checkout/order');
+
+            $order_info = $this->model_checkout_order->getOrder($order_id);
+
+            if ($order_info) {
+                $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_history WHERE order_id = '{$order_id}' AND comment LIKE '%MAIB-OK/TRANS_ID%'");
+
+                if ($query->num_rows) {
+                    $str = $query->row['comment'];
+                    $explode = explode(":", $str);
+                    if (isset($explode[1])) {
+                        list($key, $trans_id) = $explode;
+					
+					$amount = round($order_info['total'] * $order_info['currency_value'], 2);
+
+					try {
+					$client = $this->getMaibClient();	
+					$reverse = $client->revertTransaction($trans_id, $amount);
+			
+					if (isset($reverse['RESULT']) && $reverse['RESULT'] == 'OK') {
+					$this->log('Transaction full reversed!');
+                    
+                    $order_status_id = 12;
+					$comment = "MAIB-REVERSAL-OK/TRANS_ID:" . $trans_id;
+					$notify = 1;
+					$this->log(strtr('Full reversal transaction: @transid for order @orderid', [
+						'@transid' => $trans_id,
+						'@orderid' => $order_id,
+					]));
+					
+					$query = $this->db->query("UPDATE " . DB_PREFIX . "order set total = '0' WHERE order_id = '{$order_id}'");
+					$query = $this->db->query("UPDATE " . DB_PREFIX . "order_total set value = '0', title = 'Total (reversed)' WHERE order_id = '{$order_id}' AND code = 'total'");
+				
+			}
+			else {
+			throw new \Exception('Reversal failed - ' . print_r($reverse, true));
+			}
+		}
+	    catch (\Exception $e) {
+	    $order_status_id = 9;
+		$comment = "MAIB-REVERSAL/FAILLED";
+		$notify = 0;
+		$this->log('' . $e->getMessage(), 'Error');
+		//echo 'Reversal failed error: ' . $e->getMessage();
+		}		
+                    }
+                }
+            }
+        
+		$data[0] = $order_id;
+        $data[1] = $order_status_id;
+        $data[2] = $comment;
+        $data[3] = $notify;
+        $data[4] = $override;
+		}
+		
+       
+    }
 }

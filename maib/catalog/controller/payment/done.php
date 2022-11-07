@@ -31,7 +31,7 @@ class Done extends Maib {
 				$tres = $client->getTransactionResult($post_transaction_id, $user_ip);
 				if ($tres['RESULT'] == 'OK') {
 					$this->model_checkout_order
-						->addHistory($order_id, $this->config->get('payment_maib_order_status_id'), "MAIB-OK/TRANS_ID:$post_transaction_id/RRN:" . $tres['RRN'], true);
+						->addHistory($order_id, $this->config->get('payment_maib_order_status_id'), "MAIB-OK/TRANS_ID:" . $post_transaction_id, true);
 					$this->log(strtr('Confirmed transaction @transid RRN @rrn for order @orderid', [
 						'@transid' => $post_transaction_id,
 						'@rrn' => $tres['RRN'],

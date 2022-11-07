@@ -186,7 +186,11 @@ class ControllerExtensionPaymentMaib extends Controller {
 	}
 
 	public function install() {
-		$this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "maib_transaction (
+        $this->load->model('setting/event');
+        $this->model_setting_event->addEvent('maib', 'catalog/model/checkout/order/addOrderHistory/before', 'extension/payment/maib/addOrderHistoryBefore');
+        $this->model_setting_event->addEvent('maib', 'catalog/model/checkout/order/addOrderHistory/after', 'extension/payment/maib/addOrderHistoryAfter');
+		
+	$this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "maib_transaction (
 			transaction_id char(32) NOT NULL,
 			order_id int NOT NULL,
 			date_added char(20) NOT NULL,
@@ -194,7 +198,10 @@ class ControllerExtensionPaymentMaib extends Controller {
 	}
 
 	public function uninstall() {
-		$this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . "maib_transaction");
+        $this->load->model('setting/event');
+        $this->model_setting_event->deleteEventByCode('maib');
+		
+	$this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . "maib_transaction");
 	}
 
 }

@@ -191,6 +191,28 @@ class Maib extends \Opencart\System\Engine\Controller {
 	}
 
 	public function install() {
+	// add events
+        $this->load->model('setting/event');
+        
+	    $events = [
+			[
+				'code' => 'maib_reversal',
+				'description' => 'maib',
+				'trigger' => 'catalog/model/checkout/order/addHistory/before',
+				'action' => 'extension/maib/payment/maib|addOrderHistoryBefore',
+				'status' => true,
+				'sort_order' => 0,
+			],
+		];
+
+		foreach ($events as $event) {
+			if (version_compare(VERSION, '4.0.1.0', '>=')) {
+				$this->model_setting_event->addEvent($event);
+			} else {
+				$this->model_setting_event->addEvent($event['code'], $event['description'], $event['trigger'], $event['action']);
+			}
+		}	
+		
 		$this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "maib_transaction (
 			transaction_id char(32) NOT NULL,
 			order_id int NOT NULL,
@@ -199,6 +221,9 @@ class Maib extends \Opencart\System\Engine\Controller {
 	}
 
 	public function uninstall() {
-		$this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . "maib_transaction");
+	$this->load->model('setting/event');
+        $this->model_setting_event->deleteEventByCode('maib_reversal');
+	
+	$this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . "maib_transaction");
 	}
 }

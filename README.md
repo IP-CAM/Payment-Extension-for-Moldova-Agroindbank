@@ -3,7 +3,7 @@
 ####
 [![N|Solid](https://www.maib.md/images/logo.svg)](https://www.maib.md)
 
-Download modules on opencart.com (v. 3.x and 4.x)
+Download extensions on opencart.com (v. 3.x and 4.x)
 
 https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=44246
 
@@ -62,8 +62,7 @@ USAGE
  * The following tests are required: payment, payment reversal and closing of business day.
  * For payment reversal change status order to ***Reversed***.
  * Setup a cron job which will trigger closing of business day somethere around midnight (23:59). Wget or curl can be used. Ex: "*wget https://your.site/index.php?route=extension/payment/maib/closeday*"
- * After you get the certificate, extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
- * If received client redirect and/or merchant urls do not match extensions default live urls - add this urls to admin and catalog config.php files (details on settings page) and adjust mode option to use new urls.
+ * After successful tests you will get .pfx certificate for live transactions from maib. Extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.
 
 
 TROUBLESHOTING

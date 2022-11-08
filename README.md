@@ -59,7 +59,7 @@ USAGE
 
  * Adjust accordingly extensions options on admin page.
  * Test certificates you can find in github repository.
- * The following tests are required: payment, payment reversal and closing of business day.
+ * **The following tests are required: payment, payment reversal and closing of business day.**
  * For payment reversal change status order to ***Reversed***. Funds will be returned to the client.
  * Setup a cron job which will trigger closing of business day somethere around midnight (23:59). Wget or curl can be used. Ex: "*wget https://your.site/index.php?route=extension/payment/maib/closeday*"
  * After successful tests you will get .pfx certificate for live transactions from maib. Extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.

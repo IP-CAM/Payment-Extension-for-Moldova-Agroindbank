@@ -41,8 +41,8 @@ REQUIREMENTS
 INSTALLATION
 ============
 
- * Method 1: upload extension zip file in Extensions installer page of your site.
- * Method 2 (advanced): extract contents of zip file over your site.
+ * Method 1: upload extension zip file in Extensions installer in administration panel.
+ * Method 2 (advanced): extract contents of zip file over your site (FTP).
 
 
 BEFORE USAGE

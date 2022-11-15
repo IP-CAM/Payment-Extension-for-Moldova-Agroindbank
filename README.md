@@ -31,15 +31,15 @@ It is based on the maibapi library freely available on https://github.com/maiban
 REQUIREMENTS
 ============
 
- * PHP: >=8.1.0
- * OpenCart: 4.x
-
+ * OpenCart 2.3.x: PHP >= 7.2
+ * OpenCart 3.x: PHP >= 7.2
+ * OpenCart 4.x: PHP >= 8.1
 
 INSTALLATION
 ============
 
- * Method 1 (preferred): via Marketplace > Extensions page of you site administration panel.
- * Method 2: upload extension zip file to Marketplace > Extensions installer page of your site.
+ * Method 1 (preferred): via Marketplace page of you site administration panel.
+ * Method 2: upload extension zip file to Extensions installer page of your site.
  * Method 3 (developper): clone or download extension source code from github, run composer install in the library folder, create and upload extension zip file on Extensions installer page. 
 
 

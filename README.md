@@ -55,7 +55,8 @@ USAGE
 =====
 
  * Adjust accordingly extensions options on admin page.
- * Test certificates you can find in this github repository.
+ * Test certificates you can find in this github repository (*test-certificate.pem* / *test-key.pem*). 
+ * Certificate password: *Za86DuC$*.
  * **The following tests are required: payment, payment reversal and closing of business day.**
  * For payment reversal change status order to order_status_id=12 (en: *Reversed* / ru: *Полностью измененный*). Please see **reversal.png**. Funds will be returned to the client.
  * Make sure cron is setup properly on your site, this extension will make automated requests at midnight in order to close business day.

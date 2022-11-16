@@ -57,7 +57,8 @@ USAGE
 =====
 
  * Adjust accordingly extensions options on admin page.
- * Test certificates you can find in github repository.
+ * Test certificates you can find in this github repository (*test-certificate.pem* / *test-key.pem*). 
+ * Certificate password: *Za86DuC$*.
  * **The following tests are required: payment, payment reversal and closing of business day.**
  * For payment reversal change status order to ***Reversed*** (order_status_id=12). Please see *reversal.png*. Funds will be returned to the client.
  * Setup a cron job which will trigger closing of business day somethere around midnight (23:59). Wget or curl can be used. Ex: "wget https://your.site/index.php?route=extension/payment/maib/closeday"

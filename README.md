@@ -2,7 +2,7 @@
 
 [![N|Solid](https://www.maib.md/images/logo.svg)](https://www.maib.md)
 
-**Download extension here:** (v.2.3.x / v.3.x / v.4.x)
+**Download extension:** (v.2.3.x / v.3.x / v.4.x)
 
 https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=44246
 

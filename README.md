@@ -38,7 +38,7 @@ REQUIREMENTS
 INSTALLATION
 ============
 
- * Method 1 (preferred): via Marketplace page in administration panel.
+ * Method 1: via Marketplace page in administration panel (v.4.x).
  * Method 2: upload extension zip file to Extensions installer page in administration panel.
  * Method 3 (developper): clone or download extension source code from github, run composer install in the library folder, create and upload extension zip file on Extensions installer page. 
 

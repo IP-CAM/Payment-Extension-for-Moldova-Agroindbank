@@ -58,6 +58,13 @@ USAGE
  * Test certificates you can find in this github repository (*test-certificate.pem* / *test-key.pem*). 
  * Certificate password: *Za86DuC$*
  * **The following tests are required: payment, payment reversal and closing of business day.**
+ 
+ Test Card:
+
+      Card number: 5102180060101124
+      Expiration MM/YY: 06/28
+      CVV: 760
+
  * For payment reversal change status order to order_status_id=12 (en: *Reversed* / ru: *Полностью измененный*). Please see **reversal.png**. Funds will be returned to the client.
  * Make sure cron is setup properly on your site, this extension will make automated requests at midnight in order to close business day.
  * After successful tests you will get .pfx certificate for live transactions from maib. Extract pem keys (openssl commands can be found on extensions settings page), indicate keys location path on settings page and change the mode from testing to live.

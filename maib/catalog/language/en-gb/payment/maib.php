@@ -1,6 +1,6 @@
 <?php
 // Text
-$_['text_title'] = 'Credit / Debit Card (via MAIB)';
+$_['text_title'] = 'Credit / Debit Card (MASTERCARD , VISA)';
 $_['text_maib_error'] = 'Payment failed.';
 $_['text_maib_pending'] = 'Payment still in pending state. Please check later or contact site administrator.';
 $_['error_no_currency'] = 'Only following currency codes are supported: USD, EUR, MDL.';
